@@ -18,6 +18,8 @@ public:
     InputDeviceInfo getDeviceInfo(DeviceId id) const override;
     bool getRawState(DeviceId id, RawDeviceState& outState) const override;
     
+
+    
 private:
     struct SDLDevice 
     {

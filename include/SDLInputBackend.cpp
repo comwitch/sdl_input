@@ -2,37 +2,25 @@
 #include <SDL.h>
 #include <stdio.h>
 
-SDLInputBackend::SDLInputBackend() {
+void SDLInputBackend::SDLInputBackend() {
     SDLInputBackend::initialize();
 }
 
-SDLInputBackend::~SDLInputBackend() {
+void SDLInputBackend::~SDLInputBackend() {
+    SDLInputBackend::shutdown();
+}
+
+void SDLInputBackend::update() {
     if (!initialized_) 
     {
         return;
     }
-
-    for (auto& [id, device] : devices_) 
-    {
-        if (device.controller) 
-        {
-            SDL_GameControllerClose(device.controller);
-            device.controller = nullptr;
-        }
-    }
-    
-    _devices.clear();
-    SDL_Quit();
-    initialized_ = false;
+    SDL_GameControllerUpdate();
 }
 
-
-SDLInputBackend::update() {
-
-    
-    
+bool SDLInputBackend::getRawState(DeviceId id, RawDeviceState& outState) const {
+    return false;
 }
-
 
 bool SDLInputBackend::initialize() {
     if (initialized_) 
@@ -62,8 +50,26 @@ bool SDLInputBackend::initialize() {
             }
         }
     }
-
-    
     initialized_ = true;
     return true;
+}
+
+void SDLInputBackend::shutdown() {
+    if (!initialized_) 
+    {
+        return;
+    }
+
+    for (auto& [id, device] : devices_) 
+    {
+        if (device.controller) 
+        {
+            SDL_GameControllerClose(device.controller);
+            device.controller = nullptr;
+        }
+    }
+    
+    devices_.clear();
+    SDL_Quit();
+    initialized_ = false;
 }
