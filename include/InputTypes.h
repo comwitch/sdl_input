@@ -10,7 +10,7 @@ using DeviceId = uint64_t;
 enum class DeviceType{
     Unknown,
     Joystick,
-    Gamepad
+    GameController
 };
 
 enum class GamepadAxis{

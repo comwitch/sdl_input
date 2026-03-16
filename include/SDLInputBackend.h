@@ -19,7 +19,6 @@ public:
     bool getRawState(DeviceId id, RawDeviceState& outState) const override;
     
 
-    
 private:
     struct SDLDevice 
     {
@@ -29,7 +28,7 @@ private:
        SDL_JoystickID instanceId = -1;
     };
 
-    struct
+    
 
     std::unordered_map<DeviceId, SDLDevice> devices_;
     int nextDeviceId_ = 0;
