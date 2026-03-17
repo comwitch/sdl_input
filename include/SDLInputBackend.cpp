@@ -1,13 +1,14 @@
 #include "SDLInputBackend.h"
 #include <SDL.h>
+#include <cassert>
 #include <stdio.h>
 
 SDLInputBackend::SDLInputBackend() {
-    SDLInputBackend::initialize();
+    
 }
 
 SDLInputBackend::~SDLInputBackend() {
-    SDLInputBackend::shutdown();
+    shutdown()
 }
 
 void SDLInputBackend::update() {
@@ -44,8 +45,12 @@ InputDeviceInfo SDLInputBackend::getDeviceInfo(DeviceId id) const {
 
     
     const char* name= SDL_GameControllerName(device.controller);
-    std::string deviceName=name?std::string(name):std:string();
-    DeviceType type=SDL_IsGameController(device.instanceId)?DeviceType::GameController:DeviceType::Joystick;
+    std::string deviceName = name ? std::string(name) : std::string();
+    
+    // line check when debugging
+    // DeviceType type=SDL_IsGameController(device.instanceId)?DeviceType::GameController:DeviceType::Joystick;
+    DeviceType type=DeviceType::GameController;
+
     SDL_JoystickGUID guid = SDL_JoystickGetGUID(device.joystick); 
     char guidStr[33];
     SDL_JoystickGetGUIDString(guid, guidStr, sizeof(guidStr));
@@ -102,11 +107,15 @@ bool SDLInputBackend::getRawState(DeviceId id, RawDeviceState& outState) const {
     Uint8 start = SDL_GameControllerGetButton(device.controller, SDL_CONTROLLER_BUTTON_START);
     Uint8 leftStick = SDL_GameControllerGetButton(device.controller, SDL_CONTROLLER_BUTTON_LEFTSTICK);
     Uint8 rightStick = SDL_GameControllerGetButton(device.controller, SDL_CONTROLLER_BUTTON_RIGHTSTICK);
+    Uint8 dpadUp = SDL_GameControllerGetButton(device.controller, SDL_CONTROLLER_BUTTON_DPAD_UP);
+    Uint8 dpadDown = SDL_GameControllerGetButton(device.controller, SDL_CONTROLLER_BUTTON_DPAD_DOWN);
+    Uint8 dpadLeft = SDL_GameControllerGetButton(device.controller, SDL_CONTROLLER_BUTTON_DPAD_LEFT);
+    Uint8 dpadRight = SDL_GameControllerGetButton(device.controller, SDL_CONTROLLER_BUTTON_DPAD_RIGHT);
 
 
     outState.axes = {static_cast<float>(lx), static_cast<float>(ly), static_cast<float>(rx), static_cast<float>(ry), static_cast<float>(lt), static_cast<float>(rt)};
-    outState.buttons = {static_cast<bool>(a), static_cast<bool>(b), static_cast<bool>(x), static_cast<bool>(y), static_cast<bool>(lb), static_cast<bool>(rb), static_cast<bool>(back), static_cast<bool>(start), static_cast<bool>(leftStick), static_cast<bool>(rightStick)};
-    outState.hats = {0};
+    outState.buttons = {static_cast<bool>(a), static_cast<bool>(b), static_cast<bool>(x), static_cast<bool>(y), static_cast<bool>(lb), static_cast<bool>(rb), static_cast<bool>(back), static_cast<bool>(start), static_cast<bool>(leftStick), static_cast<bool>(rightStick), static_cast<bool>(dpadUp), static_cast<bool>(dpadDown), static_cast<bool>(dpadLeft), static_cast<bool>(dpadRight)};
+    outState.hats = {};
 
     return true;
     
@@ -160,6 +169,6 @@ void SDLInputBackend::shutdown() {
     }
     
     devices_.clear();
-    SDL_Quit();
+    SDL_QuitSubSystem(SDL_INIT_GAMECONTROLLER);
     initialized_ = false;
 }

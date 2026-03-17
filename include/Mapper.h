@@ -24,8 +24,8 @@ public:
     ButtonMapping leftStick;
     ButtonMapping rightStick;
 
-    HatMapping dpadUp;
-    HatMapping dpadDown;
-    HatMapping dpadLeft;
-    HatMapping dpadRight;
+    ButtonMapping dpadUp;
+    ButtonMapping dpadDown;
+    ButtonMapping dpadLeft;
+    ButtonMapping dpadRight;
 };

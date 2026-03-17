@@ -1,5 +1,9 @@
 #pragma once
 #include "InputTypes.h"
+#include <memory>
+#include <unordered_map>
+#include "Interface.h"
+#include "Mapper.h"
 
 class InputSystem {
 public:
