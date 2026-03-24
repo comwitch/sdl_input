@@ -39,12 +39,19 @@ int main() {
         Uint8 a   = SDL_GameControllerGetButton(pad, SDL_CONTROLLER_BUTTON_A);
         Uint8 b   = SDL_GameControllerGetButton(pad, SDL_CONTROLLER_BUTTON_B);
         Uint8 x=SDL_GameControllerGetButton(pad, SDL_CONTROLLER_BUTTON_X);
-        
+        int axisCount=SDL_JoystickNumAxes(SDL_GameControllerGetJoystick(pad));
+        int buttonCount=SDL_JoystickNumButtons(SDL_GameControllerGetJoystick(pad));
+        int hatCount=SDL_JoystickNumHats(SDL_GameControllerGetJoystick(pad));
 
         std::cout << "LX=" << lx
                   << " LY=" << ly
                   << " A=" << (int)a
                   << " B=" << (int)b
+                  << "static casting lx= " << static_cast<float>(lx) / 32768.0f
+                  << "static casting ly= " << static_cast<float>(ly) / 32768.0f
+                  // << "axisCount=" << axisCount
+                  // << " buttonCount=" << buttonCount
+                  // << " hatCount=" << hatCount
                   << "\n";
 
         if (x != 0){

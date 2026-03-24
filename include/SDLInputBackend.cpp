@@ -8,7 +8,7 @@ SDLInputBackend::SDLInputBackend() {
 }
 
 SDLInputBackend::~SDLInputBackend() {
-    shutdown()
+    shutdown();
 }
 
 void SDLInputBackend::update() {
@@ -71,15 +71,6 @@ InputDeviceInfo SDLInputBackend::getDeviceInfo(DeviceId id) const {
     return info;
 }
 
-//struct InputDeviceInfo{
-//     DeviceId id;
-//     std::string name;
-//     DeviceType type=DeviceType::Unknown;
-//     std::string guid;
-//     int axisCount=0;
-//     int buttonCount=0;
-//     int hatCount=0;
-// };
 
 bool SDLInputBackend::getRawState(DeviceId id, RawDeviceState& outState) const {
     

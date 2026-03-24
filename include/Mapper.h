@@ -6,6 +6,10 @@ class DeviceMapper{
 public:
     GamepadState mapToGamepad(const RawDeviceState& raw) const;
 
+    void setSDLDefaultMapping();
+    float readAxis(const RawDeviceState& raw, const AxisMapping& mapping) const;
+    bool readButton(const RawDeviceState& raw, const ButtonMapping& mapping) const;
+
     AxisMapping leftStickX;
     AxisMapping leftStickY;
     AxisMapping rightStickX;
